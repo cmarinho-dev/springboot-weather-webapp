@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Clima Atual</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4 align-self-center">
+            <div class="card shadow mx-auto" style="max-width: 500px;">
+                <div class="card-body">
+                    <div class="row justify-content-md-space-between">
+                        <div class="col-sm-6 align-self-center">
+                            <h2><span th:text="${date[0].getHour()}">23:59</span></h2>
+                            <p><span th:text="${date[0].getDate()}">31/01</span></p>
+                        </div>
+                        <div class="col-sm-4 align-self-center text-end">
+                            <h4><span th:text="${weather.location().name()}">Cidade</span></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 mb-4-1 my-3">
+            <div class="card shadow mx-auto" style="max-width: 600px;">
+                <div class="card-body text-center">
+                    <h2 class="mb-3">Hoje - <span th:text="${date[0].getDayOfWeek()}">...</span></h2>
+                    <div class="row justify-content-md-center">
+                        <div class="col-sm-2 align-self-center">
+                            <img th:src="'https:' + ${weather.current().condition().icon()}" alt="Ícone do clima" width="64">
+                        </div>
+                        <div class="col-sm-4 align-self-center text-start">
+                            <h1 class="display-4"><span th:text="${weather.current().temperatureC()}">--</span> ºC</h1>
+                        </div>
+                    </div>
+                    <p class="lead" th:text="${weather.current().condition().text()}">Descrição</p>
+                    <p><strong>Humidade:</strong> <span th:text="${weather.current().humidity()}">--</span>%</p>
+                    <hr class="my-4">
+                    <h4 class="mb-3 py-1">Previsão para os Próximos Dias</h4>
+                    <div class="row py-3">
+                        <div class="col-md-4" th:each="i : ${#numbers.sequence(0, 2)}">
+                            <div class="border rounded p-2 mb-2 bg-white shadow-sm">
+                                <h3 th:text="${date[i+1].getDayOfWeekMinimal()}">Dia I</h3>
+                                <img th:src="'https:' + ${weather.forecast().forecastDays[i].day().condition().icon()}" alt="Ícone do clima" width="42">
+                                <p class="mb-1"><span th:text="${weather.forecast().forecastDays[i].day().averageTempC()}">--</span> ºC</p>
+                                <p class="mb-0"><span th:text="${weather.forecast().forecastDays[i].day().condition().text()}">Descrição</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
